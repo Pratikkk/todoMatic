@@ -1,4 +1,4 @@
-import { useState,useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 function usePrevious(value) {
 	const ref = useRef();
 	useEffect(() => {
@@ -86,14 +86,14 @@ function Todo(props) {
 		</div>
 	);
 	useEffect(() => {
-		if (!wasEditing && isEditing) {
+		if (!wasEditing && isEditing && editFieldRef.current) {
 			editFieldRef.current.focus();
 		}
-		if (wasEditing && !isEditing) {
+		if (wasEditing && !isEditing && editButtonRef.current) {
 			editButtonRef.current.focus();
 		}
-	}), [wasEditing, isEditing];
-	
+	}, [wasEditing, isEditing]);
+
 
 	return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 }
