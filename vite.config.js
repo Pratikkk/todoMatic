@@ -2,49 +2,50 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa';
 
-const manifestForPlugin = {
-	registerType: "prompt",
-	includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
-	manifest: {
-		name: "Todo Matic",
-		short_name: "Todo Matic",
-		description: "Simple Todo App",
-		icons: [
-			{
-				src: "/android-chrome-192x192.png",
-				sizes: "192x192",
-				type: "image/png",
-			},
-			{
-				src: "/android-chrome-512x512.png",
-				sizes: "512x512",
-				type: "image/png",
-			},
-			{
-				src: "/apple-touch-icon.png",
-				sizes: "180x180",
-				type: "image/png",
-				purpose: "apple touch icon",
-			},
-			{
-				src: "/maskable_icon.png",
-				sizes: "225x225",
-				type: "image/png",
-				purpose: "any maskable",
-			},
-		],
-		theme_color: "#171717",
-		background_color: "#e8ebf2",
-		display: "standalone",
-		scope: "/",
-		start_url: "/",
-		orientation: "portrait",
-	},
-};
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA({
-    manifestForPlugin
+
+    workbox: {
+      globPatterns: ['**/*'],
+    },
+
+    includeAssets: [
+      "**/*"
+    ],
+    manifest: {
+      "theme_color": "#023047",
+      "background_color": "#ffb703",
+      "display": "browser",
+      "scope": "/",
+      "start_url": "/",
+      "name": "TodoMatic",
+      "short_name": "TodoMatic",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/icon-256x256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+        },
+        {
+          "src": "/icon-384x384.png",
+          "sizes": "384x384",
+          "type": "image/png"
+        },
+        {
+          "src": "/icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ]
+    }
+
   })],
 })
