@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState,useRef, useEffect } from "react";
 import Todo from "./components/Todo";
 import FilterButton from "./components/FilterButton";
 import Form from "./components/Form";
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 
 const FILTER_MAP = {
   All: () => true,
@@ -14,6 +22,9 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 function App(props) {
   const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState("All");
+
+  const listHeadingRef = useRef(null);
+
   function addTask(name) {
     const newTask = {
       id: "todo-" + Math.random(),
@@ -69,13 +80,19 @@ function App(props) {
       setFilter={setFilter}
     />
   ));
+  const previousTaskLength = usePrevious(tasks.length);
 
+  useEffect(() => {
+    if (tasks.length - previousTaskLength === -1) {
+      listHeadingRef.current.focus();
+    }
+  }), [tasks.length, previousTaskLength];
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
-      <h2 id="list-heading">{headingText}</h2>
+      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>{headingText}</h2>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
