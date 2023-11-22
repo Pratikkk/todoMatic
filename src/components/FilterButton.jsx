@@ -1,5 +1,5 @@
-function FilterButton(props) {
-	console.log(props)
+function FilterButton() {
+
 	{
 		return (
 			<>
